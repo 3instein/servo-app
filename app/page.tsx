@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { formatTime, formatDate } from "../lib/utils";
 import { getTodayEvents } from "../lib/services";
+import ImageCarousel from "./components/ImageCarousel";
 
 export default async function Home() {
   const events = await getTodayEvents();
@@ -57,12 +57,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="w-2/5 h-full relative overflow-hidden">
-          <Image 
-            src="https://cf-assets.gms.church/21cc86a3-67df-487b-e88f-1b7bc16f7600/1024" 
-            fill 
-            alt="Event Background" 
-            className="object-cover" 
-          />
+          <ImageCarousel />
         </div>
       </div>
     </div>

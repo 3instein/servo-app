@@ -8,3 +8,7 @@ export interface Event {
   createdAt: string;
   updatedAt: string;
 } 
+
+export interface PromoImage {
+  imageUrl: string;
+}

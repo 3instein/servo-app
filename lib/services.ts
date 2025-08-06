@@ -1,4 +1,4 @@
-import { Event } from "./types";
+import { Event, PromoImage } from "./types";
 
 export async function getTodayEvents(): Promise<Event[]> {
   try {
@@ -16,4 +16,27 @@ export async function getTodayEvents(): Promise<Event[]> {
     console.error('Error fetching today\'s events:', error);
     return [];
   }
-} 
+}
+
+export async function getPromoImages(): Promise<PromoImage[]> {
+  try {
+    const response = await fetch('https://api-ticketing.gms.church/servolution/test-promos', {
+      cache: 'no-store',
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+
+    const remappedData = data.map((item: { image_url: string }) => ({
+      imageUrl: item.image_url,
+    }));
+
+    return remappedData;
+  } catch (error) {
+    console.error('Error fetching promo images:', error);
+    return [];
+  }
+}
