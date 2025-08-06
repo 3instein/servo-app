@@ -20,15 +20,15 @@ export default function Home() {
               <div className="flex flex-col">
                 <h2 className="text-2xl font-bold text-[#09fcb7]">PMC BATCH 3</h2>
                 <div className="flex flex-row text-white">
-                  <h3 className="flex-1 font-bold">EAGLEKIDZ 1</h3>
+                  <h3 className="flex-1 font-bold text-lg">EAGLEKIDZ 1</h3>
                   <h3 className="flex-1 flex justify-center">
                     <span className="flex items-center">
-                      <span className="font-bold">1</span>
+                      <span className="font-bold text-lg">1</span>
                       <span className="text-sm ml-0.5">FL</span>
                     </span>
                   </h3>
                   <h3 className="flex-1">
-                    <span className="font-bold">13:00 - 20:00</span>
+                    <span className="font-bold text-lg">13:00 - 20:00</span>
                     <span className="text-[0.7rem] ml-1">WIB</span>
                     </h3>
                 </div>
@@ -40,12 +40,12 @@ export default function Home() {
                   <h3 className="flex-1 font-bold">MAINHALL</h3>
                   <h3 className="flex-1 flex justify-center">
                     <span className="flex items-center">
-                      <span className="font-bold">2M</span>
+                      <span className="font-bold text-lg">2M</span>
                       <span className="text-sm ml-0.5">FL</span>
                     </span>
                   </h3>
                   <h3 className="flex-1">
-                    <span className="font-bold">18:30 - 21:00</span>
+                    <span className="font-bold text-lg">18:30 - 21:00</span>
                     <span className="text-[0.7rem] ml-1">WIB</span>
                   </h3>
                 </div>
