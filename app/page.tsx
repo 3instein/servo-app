@@ -20,18 +20,30 @@ export default function Home() {
               <div className="flex flex-col">
                 <h2 className="text-2xl font-bold text-[#09fcb7]">PMC BATCH 3</h2>
                 <div className="flex flex-row text-white">
-                  <h3 className="flex-1">EAGLEKIDZ 1</h3>
-                  <h3 className="flex-1 flex justify-center">1 FL</h3>
-                  <h3 className="flex-1">13.00 - 20.00 WIB</h3>
+                  <h3 className="flex-1 font-bold">EAGLEKIDZ 1</h3>
+                  <h3 className="flex-1 flex justify-center">
+                    <span className="font-bold">1</span>
+                    FL
+                  </h3>
+                  <h3 className="flex-1">
+                    <span className="font-bold">13:00 - 20:00</span>
+                    <span className="text-[0.7rem] ml-1">WIB</span>
+                    </h3>
                 </div>
               </div>
               <hr className="my-4 border-white" />
               <div className="flex flex-col">
                 <h2 className="text-2xl font-bold text-[#09fcb7]">IBADAH AOG YOUTH</h2>
                 <div className="flex flex-row text-white">
-                  <h3 className="flex-1">MAINHALL</h3>
-                  <h3 className="flex-1 flex justify-center">2M FL</h3>
-                  <h3 className="flex-1">18.30 - 21.00 WIB</h3>
+                  <h3 className="flex-1 font-bold">MAINHALL</h3>
+                  <h3 className="flex-1 flex justify-center">
+                    <span className="font-bold">2M</span>
+                    FL
+                  </h3>
+                  <h3 className="flex-1">
+                    <span className="font-bold">18:30 - 21:00</span>
+                    <span className="text-[0.7rem] ml-1">WIB</span>
+                  </h3>
                 </div>
               </div>
             </div>
