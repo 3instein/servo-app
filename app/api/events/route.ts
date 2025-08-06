@@ -2,13 +2,31 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
 
 export async function GET() {
-  const today = new Date();
-  const events = await prisma.event.findMany({
-    where: {
-      date: today,
-    },
-  });
-  return NextResponse.json(events);
+  try {
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    
+    const events = await prisma.event.findMany({
+      where: {
+        date: {
+          gte: startOfDay,
+          lt: endOfDay,
+        },
+      },
+      orderBy: {
+        startTime: 'asc',
+      },
+    });
+    
+    return NextResponse.json(events);
+  } catch (error) {
+    console.error('Error fetching today\'s events:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch today\'s events' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
