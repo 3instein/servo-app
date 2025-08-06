@@ -16,6 +16,20 @@ const eventData: Prisma.EventCreateInput[] = [
     endTime: new Date(new Date().setHours(21, 0, 0, 0)),
     location: "MAINHALL",
   },
+  {
+    name: "IBADAH AOG YOUTH",
+    date: new Date(),
+    startTime: new Date(new Date().setHours(13, 0, 0, 0)),
+    endTime: new Date(new Date().setHours(20, 0, 0, 0)),
+    location: "MAINHALL",
+  },
+  {
+    name: "IBADAH AOG YOUTH",
+    date: new Date(),
+    startTime: new Date(new Date().setHours(13, 0, 0, 0)),
+    endTime: new Date(new Date().setHours(20, 0, 0, 0)),
+    location: "MAINHALL",
+  },
 ];
 
 export async function main() {
