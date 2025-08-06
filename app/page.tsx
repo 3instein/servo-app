@@ -53,8 +53,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="w-1/3 relative">
-          <Image src="https://cf-assets.gms.church/21cc86a3-67df-487b-e88f-1b7bc16f7600/1024" alt="PMC BATCH 3" fill className="object-cover" />
+        <div className="w-2/5 h-full relative overflow-hidden">
+          <Image src="https://cf-assets.gms.church/21cc86a3-67df-487b-e88f-1b7bc16f7600/1024" fill alt="PMC BATCH 3" className="object-cover" />
         </div>
       </div>
     </div>
