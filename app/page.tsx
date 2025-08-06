@@ -22,8 +22,10 @@ export default function Home() {
                 <div className="flex flex-row text-white">
                   <h3 className="flex-1 font-bold">EAGLEKIDZ 1</h3>
                   <h3 className="flex-1 flex justify-center">
-                    <span className="font-bold">1</span>
-                    FL
+                    <span className="flex items-center">
+                      <span className="font-bold">1</span>
+                      <span className="text-sm ml-0.5">FL</span>
+                    </span>
                   </h3>
                   <h3 className="flex-1">
                     <span className="font-bold">13:00 - 20:00</span>
@@ -37,8 +39,10 @@ export default function Home() {
                 <div className="flex flex-row text-white">
                   <h3 className="flex-1 font-bold">MAINHALL</h3>
                   <h3 className="flex-1 flex justify-center">
-                    <span className="font-bold">2M</span>
-                    FL
+                    <span className="flex items-center">
+                      <span className="font-bold">2M</span>
+                      <span className="text-sm ml-0.5">FL</span>
+                    </span>
                   </h3>
                   <h3 className="flex-1">
                     <span className="font-bold">18:30 - 21:00</span>
