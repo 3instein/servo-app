@@ -36,6 +36,24 @@ export async function getAllEvents(): Promise<Event[]> {
   }
 }
 
+export async function deleteEvent(eventId: string): Promise<boolean> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/events/${eventId}`, {
+      method: 'DELETE',
+      cache: 'no-store',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    return false;
+  }
+}
+
 export async function getPromoImages(): Promise<PromoImage[]> {
   try {
     const response = await fetch('https://api-ticketing.gms.church/servolution/test-promos', {

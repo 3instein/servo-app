@@ -2,14 +2,19 @@
 
 import { useState, useEffect } from 'react';
 import { Event } from '../../lib/types';
-import { getAllEvents } from '../../lib/services';
+import { getAllEvents, deleteEvent } from '../../lib/services';
 import { formatDate, formatTime } from '@/lib/utils';
+import Dialog from './Dialog/Dialog';
+import DeleteDialog from './Dialog/DeleteDialog';
 
 export default function EventTable() {
   const [events, setEvents] = useState<Event[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -34,6 +39,36 @@ export default function EventTable() {
     );
     setFilteredEvents(filtered);
   }, [events, searchTerm]);
+
+  const handleDeleteClick = (event: Event) => {
+    setEventToDelete(event);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!eventToDelete) return;
+
+    setDeleting(true);
+    try {
+      const success = await deleteEvent(eventToDelete.id);
+      if (success) {
+        // Remove the event from both arrays
+        setEvents(prev => prev.filter(e => e.id !== eventToDelete.id));
+        setFilteredEvents(prev => prev.filter(e => e.id !== eventToDelete.id));
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+    } finally {
+      setDeleting(false);
+      setDeleteDialogOpen(false);
+      setEventToDelete(null);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteDialogOpen(false);
+    setEventToDelete(null);
+  };
 
   if (loading) {
     return (
@@ -89,12 +124,15 @@ export default function EventTable() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Location
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredEvents.length === 0 ? (
               <tr>
-                <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
+                <td colSpan={4} className="px-6 py-4 text-center text-gray-500">
                   {searchTerm ? 'No events match your search' : 'No events found'}
                 </td>
               </tr>
@@ -113,12 +151,31 @@ export default function EventTable() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {event.location}
                   </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <button
+                      onClick={() => handleDeleteClick(event)}
+                      className="text-red-600 hover:text-red-900 transition-colors hover:cursor-pointer"
+                      title="Delete event"
+                    >
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </table>
       </div>
+
+      <DeleteDialog
+        deleteDialogOpen={deleteDialogOpen}
+        handleDeleteCancel={handleDeleteCancel}
+        handleDeleteConfirm={handleDeleteConfirm}
+        eventToDelete={eventToDelete}
+        deleting={deleting}
+      />
     </div>
   );
 }
