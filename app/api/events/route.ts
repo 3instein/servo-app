@@ -1,29 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+    const { searchParams } = new URL(request.url);
+    const allEvents = searchParams.get('all') === 'true';
     
-    const events = await prisma.event.findMany({
-      where: {
-        date: {
-          gte: startOfDay,
-          lt: endOfDay,
+    if (allEvents) {
+      // Fetch all events
+      const events = await prisma.event.findMany({
+        orderBy: [
+          { date: 'desc' },
+          { startTime: 'asc' },
+        ],
+      });
+      
+      return NextResponse.json(events);
+    } else {
+      // Fetch only today's events (existing logic)
+      const today = new Date();
+      const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+      
+      const events = await prisma.event.findMany({
+        where: {
+          date: {
+            gte: startOfDay,
+            lt: endOfDay,
+          },
         },
-      },
-      orderBy: {
-        startTime: 'asc',
-      },
-    });
-    
-    return NextResponse.json(events);
+        orderBy: {
+          startTime: 'asc',
+        },
+      });
+      
+      return NextResponse.json(events);
+    }
   } catch (error) {
-    console.error('Error fetching today\'s events:', error);
+    console.error('Error fetching events:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch today\'s events' },
+      { error: 'Failed to fetch events' },
       { status: 500 }
     );
   }
