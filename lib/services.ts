@@ -36,6 +36,35 @@ export async function getAllEvents(): Promise<Event[]> {
   }
 }
 
+export async function updateEvent(eventId: string, eventData: {
+  name: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+}): Promise<Event | null> {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/events/${eventId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(eventData),
+      cache: 'no-store',
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const updatedEvent = await response.json();
+    return updatedEvent;
+  } catch (error) {
+    console.error('Error updating event:', error);
+    return null;
+  }
+}
+
 export async function deleteEvent(eventId: string): Promise<boolean> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/events/${eventId}`, {

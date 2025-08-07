@@ -6,6 +6,7 @@ import { getAllEvents, deleteEvent } from '../../lib/services';
 import { formatDate, formatTime } from '@/lib/utils';
 import DeleteDialog from './Dialog/DeleteDialog';
 import CreateDialog from './Dialog/CreateDialog';
+import UpdateDialog from './Dialog/UpdateDialog';
 
 export default function EventTable() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -16,6 +17,8 @@ export default function EventTable() {
   const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
+  const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
+  const [eventToUpdate, setEventToUpdate] = useState<Event | null>(null);
 
   const fetchEvents = async () => {
     try {
@@ -46,6 +49,11 @@ export default function EventTable() {
     setDeleteDialogOpen(true);
   };
 
+  const handleEditClick = (event: Event) => {
+    setEventToUpdate(event);
+    setUpdateDialogOpen(true);
+  };
+
   const handleDeleteConfirm = async () => {
     if (!eventToDelete) return;
 
@@ -73,6 +81,11 @@ export default function EventTable() {
 
   const handleEventCreated = () => {
     // Refresh the events list after creating a new event
+    fetchEvents();
+  };
+
+  const handleEventUpdated = () => {
+    // Refresh the events list after updating an event
     fetchEvents();
   };
 
@@ -172,15 +185,26 @@ export default function EventTable() {
                     {event.location}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <button
-                      onClick={() => handleDeleteClick(event)}
-                      className="text-red-600 hover:text-red-900 transition-colors hover:cursor-pointer"
-                      title="Delete event"
-                    >
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleEditClick(event)}
+                        className="text-blue-600 hover:text-blue-900 transition-colors hover:cursor-pointer"
+                        title="Edit event"
+                      >
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteClick(event)}
+                        className="text-red-600 hover:text-red-900 transition-colors hover:cursor-pointer"
+                        title="Delete event"
+                      >
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -202,6 +226,13 @@ export default function EventTable() {
         isOpen={createDialogOpen}
         onClose={() => setCreateDialogOpen(false)}
         onEventCreated={handleEventCreated}
+      />
+
+      <UpdateDialog
+        isOpen={updateDialogOpen}
+        onClose={() => setUpdateDialogOpen(false)}
+        event={eventToUpdate}
+        onEventUpdated={handleEventUpdated}
       />
     </div>
   );
