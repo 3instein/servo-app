@@ -129,5 +129,3 @@ The application uses a PostgreSQL database with the following structure:
 - **Account**: NextAuth.js account management
 - **Session**: NextAuth.js session management
 - **VerificationToken**: NextAuth.js email verification
-
-## Learn More
