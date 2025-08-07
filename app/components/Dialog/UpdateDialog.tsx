@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Dialog from './Dialog';
 import { Event } from '../../../lib/types';
 import { updateEvent } from '../../../lib/services';
-import { formatDate, formatTime } from '../../../lib/utils';
 
 interface UpdateEventData {
   name: string;

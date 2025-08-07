@@ -65,6 +65,7 @@ export default function LoginPage() {
         router.push('/admin/dashboard');
       }
     } catch (error) {
+      console.error('Login failed:', error);
       setError('Login failed. Please try again.');
     } finally {
       setIsLoading(false);
