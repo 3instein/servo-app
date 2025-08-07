@@ -116,3 +116,18 @@ servo-app/
 - **Prisma**: Database ORM
 - **NextAuth.js**: Authentication
 - **PostgreSQL**: Database (via Prisma)
+
+## Database Schema
+
+The application uses a PostgreSQL database with the following structure:
+
+![Database Schema](ERD.png)
+
+### Key Tables
+- **User**: Admin user accounts for authentication
+- **Event**: Event data with name, date, time, and location
+- **Account**: NextAuth.js account management
+- **Session**: NextAuth.js session management
+- **VerificationToken**: NextAuth.js email verification
+
+## Learn More
