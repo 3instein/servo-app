@@ -1,4 +1,33 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Servo App
+
+A Next.js application for managing and displaying event schedules with an admin dashboard for event management.
+
+## Features
+
+- **Public Display**: Shows today's events on the main page with an image carousel
+- **Event Management**: Admin dashboard for creating, updating, and deleting events
+- **Authentication**: Secure admin login system
+- **Event Listing**: View all events in a paginated table
+- **Responsive Design**: Modern UI with Tailwind CSS
+
+## Navigation
+
+### Public Pages
+- **Home (`/`)**: Main display showing today's events with image carousel
+- **Events (`/events`)**: Public view of all events in a table format
+
+### Admin Pages
+- **Admin Login (`/admin/login`)**: Authentication page for administrators
+- **Admin Dashboard (`/admin/dashboard`)**: Protected admin panel for event management
+  - Create new events
+  - Update existing events
+  - Delete events
+  - View all events in a table
+
+### API Routes
+- **`/api/auth/[...nextauth]`**: NextAuth.js authentication endpoints
+- **`/api/events`**: Event CRUD operations
+- **`/api/events/[id]`**: Individual event operations
 
 ## Getting Started
 
@@ -18,19 +47,72 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Environment Variables
 
-## Learn More
+Create a `.env.local` file in the root directory with the following variables:
 
-To learn more about Next.js, take a look at the following resources:
+```env
+# Database
+DATABASE_URL="your-database-url"
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# NextAuth
+NEXTAUTH_SECRET="your-nextauth-secret"
+NEXTAUTH_URL="http://localhost:3000"
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Optional: Base URL for API calls
+NEXT_PUBLIC_BASE_URL="http://localhost:3000"
+```
 
-## Deploy on Vercel
+## Database Setup
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project uses Prisma as the ORM. To set up the database:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+# Install dependencies
+npm install
+
+# Generate Prisma client
+npx prisma generate
+
+# Run database migrations
+npx prisma migrate dev
+
+# (Optional) Seed the database
+npx prisma db seed
+```
+
+## Build and Deploy
+
+```bash
+# Build for production
+npm run build
+
+# Start production server
+npm start
+```
+
+## Project Structure
+
+```
+servo-app/
+├── app/
+│   ├── admin/           # Admin pages
+│   │   ├── dashboard/   # Admin dashboard
+│   │   └── login/       # Admin login
+│   ├── api/             # API routes
+│   ├── components/      # Reusable components
+│   ├── events/          # Public events page
+│   └── page.tsx         # Home page
+├── lib/                 # Utility functions and services
+├── prisma/              # Database schema and migrations
+└── public/              # Static assets
+```
+
+## Technologies Used
+
+- **Next.js 15**: React framework with App Router
+- **TypeScript**: Type-safe JavaScript
+- **Tailwind CSS**: Utility-first CSS framework
+- **Prisma**: Database ORM
+- **NextAuth.js**: Authentication
+- **PostgreSQL**: Database (via Prisma)
