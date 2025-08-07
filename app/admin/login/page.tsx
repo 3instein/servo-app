@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +12,30 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+  const { data: session, status } = useSession();
+
+  // Redirect if already logged in
+  if (status === 'authenticated' && session) {
+    if (typeof window !== 'undefined') {
+      // Use a side effect to avoid calling router.push during render
+      setTimeout(() => {
+        router.push('/admin/dashboard');
+      }, 0);
+    }
+    return null;
+  }
+
+  // Show loading while checking session
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -27,17 +52,17 @@ export default function LoginPage() {
     setIsLoading(true);
     setError('');
 
-    // Simulate login process (replace with actual authentication)
     try {
-      // For demo purposes, show loading for 1 second
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Simple validation (replace with actual auth logic)
-      if (formData.username && formData.password) {
-        // Success - redirect to dashboard
-        router.push('/admin/dashboard');
+      const result = await signIn('credentials', {
+        username: formData.username,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError('Invalid credentials. Please try again.');
       } else {
-        setError('Please fill in all fields');
+        router.push('/admin/dashboard');
       }
     } catch (err) {
       setError('Login failed. Please try again.');
