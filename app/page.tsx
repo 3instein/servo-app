@@ -3,6 +3,9 @@ import { getTodayEvents } from "../lib/services";
 import ImageCarousel from "./components/ImageCarousel";
 import EventPagination from "./components/EventPagination";
 
+// Force dynamic rendering since we need fresh data
+export const dynamic = 'force-dynamic';
+
 export default async function Home() {
   const events = await getTodayEvents();
   const today = new Date();
