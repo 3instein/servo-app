@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { Event } from '../../lib/types';
 import { getAllEvents, deleteEvent } from '../../lib/services';
 import { formatDate, formatTime } from '@/lib/utils';
-import Dialog from './Dialog/Dialog';
 import DeleteDialog from './Dialog/DeleteDialog';
+import CreateDialog from './Dialog/CreateDialog';
 
 export default function EventTable() {
   const [events, setEvents] = useState<Event[]>([]);
@@ -15,20 +15,21 @@ export default function EventTable() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
+
+  const fetchEvents = async () => {
+    try {
+      const fetchedEvents = await getAllEvents();
+      setEvents(fetchedEvents);
+      setFilteredEvents(fetchedEvents);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const fetchedEvents = await getAllEvents();
-        setEvents(fetchedEvents);
-        setFilteredEvents(fetchedEvents);
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchEvents();
   }, []);
 
@@ -70,6 +71,11 @@ export default function EventTable() {
     setEventToDelete(null);
   };
 
+  const handleEventCreated = () => {
+    // Refresh the events list after creating a new event
+    fetchEvents();
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center p-8">
@@ -81,6 +87,20 @@ export default function EventTable() {
 
   return (
     <div className="space-y-4">
+      {/* Header with Create Button */}
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-gray-900">Events</h2>
+        <button
+          onClick={() => setCreateDialogOpen(true)}
+          className="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+        >
+          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          Create Event
+        </button>
+      </div>
+
       {/* Search */}
       <div className="relative max-w-md">
         <input
@@ -169,12 +189,19 @@ export default function EventTable() {
         </table>
       </div>
 
+      {/* Dialogs */}
       <DeleteDialog
         deleteDialogOpen={deleteDialogOpen}
         handleDeleteCancel={handleDeleteCancel}
         handleDeleteConfirm={handleDeleteConfirm}
         eventToDelete={eventToDelete}
         deleting={deleting}
+      />
+
+      <CreateDialog
+        isOpen={createDialogOpen}
+        onClose={() => setCreateDialogOpen(false)}
+        onEventCreated={handleEventCreated}
       />
     </div>
   );
