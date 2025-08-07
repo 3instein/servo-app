@@ -48,10 +48,10 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, date, startTime, endTime, location } = body;
+    const { name, date, startTime, endTime, location, floor } = body;
 
     // Validate required fields
-    if (!name || !date || !startTime || !endTime || !location) {
+    if (!name || !date || !startTime || !endTime || !location || !floor) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -65,6 +65,7 @@ export async function POST(request: NextRequest) {
         startTime: new Date(startTime),
         endTime: new Date(endTime),
         location,
+        floor,
       },
     });
 

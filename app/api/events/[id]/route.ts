@@ -37,10 +37,10 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, date, startTime, endTime, location } = body;
+    const { name, date, startTime, endTime, location, floor } = body;
 
     // Validate required fields
-    if (!name || !date || !startTime || !endTime || !location) {
+    if (!name || !date || !startTime || !endTime || !location || !floor) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -57,6 +57,7 @@ export async function PUT(
         startTime: new Date(startTime),
         endTime: new Date(endTime),
         location,
+        floor,
       },
     });
 

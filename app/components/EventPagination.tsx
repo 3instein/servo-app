@@ -2,14 +2,7 @@
 
 import { useState } from 'react';
 import { formatTime } from '../../lib/utils';
-
-interface Event {
-  id: string;
-  name: string;
-  location: string;
-  startTime: string;
-  endTime: string;
-}
+import { Event } from '../../lib/types';
 
 interface EventPaginationProps {
   events: Event[];
@@ -48,7 +41,7 @@ export default function EventPagination({ events }: EventPaginationProps) {
               <h3 className="flex-1 font-bold text-lg">{event.location}</h3>
               <h3 className="flex-1 flex justify-center">
                 <span className="flex items-center">
-                  <span className="font-bold text-lg">{startIndex + index + 1}</span>
+                  <span className="font-bold text-lg">{event.floor}</span>
                   <span className="text-sm ml-0.5">FL</span>
                 </span>
               </h3>

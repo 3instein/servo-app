@@ -11,6 +11,7 @@ interface UpdateEventData {
   startTime: string;
   endTime: string;
   location: string;
+  floor: string;
 }
 
 interface UpdateDialogProps {
@@ -26,7 +27,8 @@ export default function UpdateDialog({ isOpen, onClose, event, onEventUpdated }:
     date: '',
     startTime: '',
     endTime: '',
-    location: ''
+    location: '',
+    floor: ''
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -58,7 +60,8 @@ export default function UpdateDialog({ isOpen, onClose, event, onEventUpdated }:
           date: formattedDate,
           startTime: formattedStartTime,
           endTime: formattedEndTime,
-          location: event.location
+          location: event.location,
+          floor: event.floor
         });
         setErrors({});
       } catch (error) {
@@ -88,6 +91,10 @@ export default function UpdateDialog({ isOpen, onClose, event, onEventUpdated }:
 
     if (!formData.location.trim()) {
       newErrors.location = 'Location is required';
+    }
+
+    if (!formData.floor.trim()) {
+      newErrors.floor = 'Floor is required';
     }
 
     // Validate that end time is after start time
@@ -140,6 +147,7 @@ export default function UpdateDialog({ isOpen, onClose, event, onEventUpdated }:
         startTime: startDateTime.toISOString(),
         endTime: endDateTime.toISOString(),
         location: formData.location.trim(),
+        floor: formData.floor.trim(),
       });
 
       if (!updatedEvent) {
@@ -274,6 +282,27 @@ export default function UpdateDialog({ isOpen, onClose, event, onEventUpdated }:
           />
           {errors.location && (
             <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+          )}
+        </div>
+
+        {/* Floor */}
+        <div>
+          <label htmlFor="floor" className="block text-sm font-medium text-gray-700 mb-2">
+            Floor *
+          </label>
+          <input
+            type="text"
+            id="floor"
+            value={formData.floor}
+            onChange={(e) => handleInputChange('floor', e.target.value)}
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              errors.floor ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Enter floor number"
+            disabled={isSubmitting}
+          />
+          {errors.floor && (
+            <p className="mt-1 text-sm text-red-600">{errors.floor}</p>
           )}
         </div>
 

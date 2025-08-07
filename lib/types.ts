@@ -28,6 +28,7 @@ export interface Event {
   startTime: string;
   endTime: string;
   location: string;
+  floor: string;
   createdAt: string;
   updatedAt: string;
 } 

@@ -42,6 +42,7 @@ export async function updateEvent(eventId: string, eventData: {
   startTime: string;
   endTime: string;
   location: string;
+  floor: string;
 }): Promise<Event | null> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/events/${eventId}`, {

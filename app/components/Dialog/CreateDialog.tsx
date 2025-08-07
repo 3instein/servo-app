@@ -9,6 +9,7 @@ interface CreateEventData {
   startTime: string;
   endTime: string;
   location: string;
+  floor: string;
 }
 
 interface CreateDialogProps {
@@ -23,7 +24,8 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
     date: '',
     startTime: '',
     endTime: '',
-    location: ''
+    location: '',
+    floor: ''
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -50,6 +52,10 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
 
     if (!formData.location.trim()) {
       newErrors.location = 'Location is required';
+    }
+
+    if (!formData.floor.trim()) {
+      newErrors.floor = 'Floor is required';
     }
 
     // Validate that end time is after start time
@@ -107,6 +113,7 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
           startTime: startDateTime.toISOString(),
           endTime: endDateTime.toISOString(),
           location: formData.location.trim(),
+          floor: formData.floor.trim(),
         }),
       });
 
@@ -121,7 +128,8 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
         date: '',
         startTime: '',
         endTime: '',
-        location: ''
+        location: '',
+        floor: ''
       });
       setErrors({});
 
@@ -144,7 +152,8 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
       date: '',
       startTime: '',
       endTime: '',
-      location: ''
+      location: '',
+      floor: ''
     });
     setErrors({});
     setIsSubmitting(false);
@@ -259,6 +268,27 @@ export default function CreateDialog({ isOpen, onClose, onEventCreated }: Create
           />
           {errors.location && (
             <p className="mt-1 text-sm text-red-600">{errors.location}</p>
+          )}
+        </div>
+
+        {/* Floor */}
+        <div>
+          <label htmlFor="floor" className="block text-sm font-medium text-gray-700 mb-2">
+            Floor *
+          </label>
+          <input
+            type="text"
+            id="floor"
+            value={formData.floor}
+            onChange={(e) => handleInputChange('floor', e.target.value)}
+            className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+              errors.floor ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Enter floor number"
+            disabled={isSubmitting}
+          />
+          {errors.floor && (
+            <p className="mt-1 text-sm text-red-600">{errors.floor}</p>
           )}
         </div>
 

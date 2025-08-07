@@ -21,6 +21,7 @@ model Event {
   startTime DateTime
   endTime   DateTime
   location  String
+  floor     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

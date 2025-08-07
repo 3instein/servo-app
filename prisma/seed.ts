@@ -9,6 +9,7 @@ const eventData: Prisma.EventCreateInput[] = [
     startTime: new Date(new Date().setHours(13, 0, 0, 0)),
     endTime: new Date(new Date().setHours(20, 0, 0, 0)),
     location: "EAGLEKIDZ 1",
+    floor: "1",
   },
   {
     name: "IBADAH AOG YOUTH",
@@ -16,6 +17,7 @@ const eventData: Prisma.EventCreateInput[] = [
     startTime: new Date(new Date().setHours(18, 30, 0, 0)),
     endTime: new Date(new Date().setHours(21, 0, 0, 0)),
     location: "MAINHALL",
+    floor: "2",
   },
   {
     name: "IBADAH AOG YOUTH",
@@ -23,6 +25,7 @@ const eventData: Prisma.EventCreateInput[] = [
     startTime: new Date(new Date().setHours(13, 0, 0, 0)),
     endTime: new Date(new Date().setHours(20, 0, 0, 0)),
     location: "MAINHALL",
+    floor: "3",
   },
   {
     name: "IBADAH AOG YOUTH",
@@ -30,6 +33,7 @@ const eventData: Prisma.EventCreateInput[] = [
     startTime: new Date(new Date().setHours(13, 0, 0, 0)),
     endTime: new Date(new Date().setHours(20, 0, 0, 0)),
     location: "MAINHALL",
+    floor: "4",
   },
 ];
 
