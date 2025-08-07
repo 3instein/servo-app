@@ -1,5 +1,6 @@
 import { prisma } from "../lib/prisma";
 import { Prisma } from "../app/generated/prisma";
+import bcrypt from "bcryptjs";
 
 const eventData: Prisma.EventCreateInput[] = [
   {
@@ -32,15 +33,25 @@ const eventData: Prisma.EventCreateInput[] = [
   },
 ];
 
+const userData: Prisma.UserCreateInput[] = [
+  {
+    username: "admin",
+    password: bcrypt.hashSync("admin", 10),
+  },
+];
+
 export async function main() {
   // Clear existing events
   await prisma.event.deleteMany();
-  
+  await prisma.user.deleteMany();
   // Create new events
   for (const e of eventData) {
     await prisma.event.create({ data: e });
   }
-  
+  // Create new users
+  for (const u of userData) {
+    await prisma.user.create({ data: u });
+  }
   console.log('Seed data created successfully!');
 }
 
